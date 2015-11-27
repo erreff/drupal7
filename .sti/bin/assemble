@@ -21,3 +21,4 @@ fi
 echo "---> Updating permissions on default site directory ..."
 chmod -R a+rwx /opt/app-root/src/sites/default
 cp /opt/app-root/src/sites/default/default.settings.php /opt/app-root/src/sites/default/settings.php
+chmod a+rwx /opt/app-root/src/sites/default/settings.php
