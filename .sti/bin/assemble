@@ -9,7 +9,7 @@ if [ -f composer.json ]; then
   echo "Found 'composer.json', installing dependencies using composer.phar... "
 
   # Install Composer
-  php -r "readfile('https://getcomposer.org/installer');" | php
+  HTTPS_PROXY=$HTTPS_PROXY php -r "readfile('https://getcomposer.org/installer');" | php
 
   # Install App dependencies using Composer
   ./composer.phar install --no-interaction --no-ansi --no-scripts --optimize-autoloader
@@ -20,5 +20,15 @@ if [ -f composer.json ]; then
 fi
 echo "---> Updating permissions on default site directory ..."
 chmod -R a+rwx /opt/app-root/src/sites/default
-cp /opt/app-root/src/sites/default/default.settings.php /opt/app-root/src/sites/default/settings.php
+#cp /opt/app-root/src/sites/default/default.settings.php /opt/app-root/src/sites/default/settings.php
+export DRUPAL_HOME=/opt/app-root/src
 chmod a+rwx /opt/app-root/src/sites/default/settings.php
+#Installation drush
+chmod a+x /opt/app-root/src/drush/drush.phar
+
+db_url = "mysql://$MYSQL_DRUPAL_USER:$MYSQL_DRUPAL_USER_MDP@$MYSQL_DRUPAL_HOST:$MYSQL_DRUPAL_PORT/$MYSQL_DRUPAL_DATABASENAME"
+
+pushd /opt/app-root/src/sites/default
+/opt/app-root/src/drush/drush.phar site-install standard --db-url="$db_url"  --site-name="Site de test drupal" --site-mail="drupal_default@laposte.fr" --account-name="drupal7_install" --account-pass="redhat" --account-mail="drupal7_install@laposte.fr" --clean-url=0 --yes
+
+popd
