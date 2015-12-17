@@ -20,7 +20,7 @@ if [ -f composer.json ]; then
 fi
 echo "---> Updating permissions on default site directory ..."
 chmod -R a+rwx /opt/app-root/src/sites/default
-#cp /opt/app-root/src/sites/default/default.settings.php /opt/app-root/src/sites/default/settings.php
+cp /opt/app-root/src/sites/default/default.settings.php /opt/app-root/src/sites/default/settings.php
 export DRUPAL_HOME=/opt/app-root/src
 chmod a+rwx /opt/app-root/src/sites/default/settings.php
 #Installation drush
